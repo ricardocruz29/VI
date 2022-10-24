@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <div style="height: 100vh">
+      <title>Exercise 1.10</title>
+      <desc>SVG Ten Example - Path and Text</desc>
+      <svg width="1920" height="600">
+        <circle
+          id="circle_animation"
+          cx="210"
+          cy="210"
+          r="100"
+          fill="red"
+        ></circle>
+
+        <text
+          id="text_pulse"
+          x="210"
+          y="210"
+          fill="white"
+          text-anchor="middle"
+          alignment-baseline="middle"
+          style="font: 48px Verdana, sans-serif"
+        >
+          SVG
+        </text>
+
+        <path id="MyPath" fill="none" d="M90,260 Q210,400 330,260" />
+        <text style="font: 16px Verdana, sans-serif">
+          <!-- <animateMotion
+            dur="10s"
+            repeatCount="indefinite"
+            path="M90,260 Q210,400 330,260"
+          /> -->
+          <textPath href="#MyPath">
+            <animate
+              attributename="startOffset"
+              values="0;20;50;20;0;-20;-50;-20;0"
+              dur="3"
+              repeatcount="indefinite"
+            ></animate>
+            is to graphic WHAT HTML is to text
+          </textPath>
+        </text>
+      </svg>
+    </div>
+  </body>
+</html>
