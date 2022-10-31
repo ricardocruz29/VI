@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>D3 aula 3 ex 1 - Scatterplot</title>
+    <script type="text/javascript" src="http://d3js.org/d3.v6.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      let dataset = [
+        [105, 20, Math.floor(Math.random() * 15)],
+        [480, 90, Math.floor(Math.random() * 15)],
+        [250, 50, Math.floor(Math.random() * 15)],
+        [100, 33, Math.floor(Math.random() * 15)],
+        [330, 95, Math.floor(Math.random() * 15)],
+        [410, 12, Math.floor(Math.random() * 15)],
+        [475, 44, Math.floor(Math.random() * 15)],
+        [75, 67, Math.floor(Math.random() * 15)],
+        [85, 21, Math.floor(Math.random() * 15)],
+        [220, 88, Math.floor(Math.random() * 15)],
+      ];
+
+      //Does the same as putting the math directly on the dataset
+      // for (let i = 0; i < dataset.length; i++) {
+      //   dataset[i][2] = Math.floor(Math.random() * 15);
+      // }
+
+      let w = 500;
+      let h = 400;
+
+      let svg = d3
+        .select("body")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+      let circles = svg
+        .selectAll("circle")
+        .data(dataset)
+        .join("circle")
+        .attr("cx", (d, i) => d[0])
+        .attr("cy", (d, i) => d[1])
+        .attr("r", (d, i) => d[2]);
+
+      svg
+        .selectAll("text")
+        .data(dataset)
+        .join("text")
+        .text((d, i) => `(${d[0]}, ${d[1]})`)
+        .attr("x", (d, i) => d[0] - d[2])
+        .attr("y", (d, i) => d[1])
+        .style("stroke", "red")
+        .attr("text-anchor", "end");
+    </script>
+  </body>
+</html>
