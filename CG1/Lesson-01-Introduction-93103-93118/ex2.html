@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>2D Primitives</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+        <script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
+        <script>
+			// Our Javascript will go here.
+            var scene = new THREE.Scene(new THREE.Color( 0xff0000 )); 
+            var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / 
+            window.innerHeight, 0.1, 1000 ); 
+            
+            const renderer = new THREE.WebGLRenderer(); 
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setClearColor("#ff0000")
+            document.body.appendChild( renderer.domElement );
+
+            //triangle 1
+            var geometry1 = new THREE.BufferGeometry();
+
+            const vertices1 = new Float32Array( [
+                0.0, 0.0,  0.0,
+                0.5, 0.75,  0.0,
+                1.0,  0.0,  0.0,
+            ] );
+
+            geometry1.setAttribute( 'position', new THREE.BufferAttribute( vertices1, 3 ) );
+            var colors1 = new Uint8Array( [
+                0,  0,  0,  
+                0,  0,  0,  
+                0,  0,  0,  
+            ] );
+            geometry1.setAttribute( 'color', new THREE.BufferAttribute( colors1, 3, true) );
+            const geometryMaterial1 = new THREE.MeshBasicMaterial( {vertexColors: true} );
+            geometryMaterial1.side = THREE.DoubleSide
+            var triangle1 = new THREE.Mesh( geometry1, geometryMaterial1 );
+            
+            scene.add( triangle1 );
+            
+            camera.position.z = 5;
+            
+            function render() { 
+                requestAnimationFrame(render); 
+                renderer.render(scene, camera);
+            }
+            render();
+            
+		</script>
+	</body>
+</html>

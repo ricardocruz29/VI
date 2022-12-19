@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Ex 1</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+        <script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
+        <script>
+			// Our Javascript will go here.
+
+            //---cube
+            var scene = new THREE.Scene(); 
+            var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / 
+            window.innerHeight, 0.1, 1000 ); 
+            
+            const renderer = new THREE.WebGLRenderer(); 
+            renderer.setSize( window.innerWidth, window.innerHeight ); 
+            document.body.appendChild( renderer.domElement );
+
+            var geometry = new THREE.BoxGeometry(1,1,1); 
+            var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+
+            material.wireframe = true;
+
+            var cube = new THREE.Mesh( geometry, material );
+
+            scene.add( cube );
+
+            //---octahedron
+            
+            var octGeometry = new THREE.OctahedronGeometry(1.5,3); 
+            const octMaterial = new THREE.MeshBasicMaterial( {vertexColors: false });
+
+            octMaterial.wireframe = true;
+            var octahedron = new THREE.Mesh( octGeometry, octMaterial );
+            octahedron.position.x = 3;
+            scene.add( octahedron );  
+
+
+            camera.position.z = 5;
+
+            //---capsule
+            
+            var capGeometry = new THREE.CapsuleGeometry(1.2,0.5,5,10); 
+            var capMaterial = new THREE.MeshBasicMaterial( {vertexColors: false } );
+            capMaterial.wireframe = true;
+            var capsule = new THREE.Mesh( capGeometry, capMaterial );
+            capsule.position.x = -3;
+            scene.add( capsule );  
+
+            //---capsule
+            
+            var planeGeometry = new THREE.PlaneGeometry(20,20,5,10); 
+            var planeMaterial = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+            var plane = new THREE.Mesh( planeGeometry, planeMaterial );
+            plane.position.z = -3
+            scene.add( plane );  
+
+            camera.position.z = 5;
+
+            const ringGeometry = new THREE.RingGeometry( 0.3, 0.9, 32, 4, 0, Math.PI);
+            const ringMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide } );
+            const rmesh = new THREE.Mesh( ringGeometry, ringMaterial );
+            rmesh.position.z = -2
+            scene.add( rmesh );
+
+            function render() { 
+                requestAnimationFrame(render); 
+                renderer.render(scene, camera); 
+                cube.rotation.x += 0.1; 
+                cube.rotation.y += 0.1;
+                capsule.rotation.x += 0.005
+                capsule.rotation.y += 0.005
+            } 
+            render();
+            window.addEventListener('resize', function () {	
+                renderer.setSize( window.innerWidth, window.innerHeight ); 
+    		});
+		</script>
+	</body>
+</html>
