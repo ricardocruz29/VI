@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Shading</title>
+    <title>Transparency</title>
     <style>
       body {
         margin: 0;
@@ -109,18 +109,41 @@
       const sphere2 = new THREE.Mesh(geometry, optional_material);
       sphere.position.x = -2.5;
       sphere2.position.x = 2.5;
-
       scene.add(sphere);
       scene.add(sphere2);
 
+      //add transparent spheres
+      const geometry_transparency = new THREE.SphereGeometry(2, 10, 10);
+
+      const glassMaterial = new THREE.MeshPhongMaterial({
+        color: 0x222222,
+        specular: 0xffffff,
+        shininess: 100,
+        opacity: 0.3,
+        transparent: true,
+      });
+
+      const sphere_transparency = new THREE.Mesh(
+        geometry_transparency,
+        glassMaterial
+      );
+      const sphere_transparency_2 = new THREE.Mesh(
+        geometry_transparency,
+        glassMaterial
+      );
+      sphere_transparency.position.x = -2.5;
+      sphere_transparency_2.position.x = 2.5;
+      scene.add(sphere_transparency);
+      scene.add(sphere_transparency_2);
+
       camera.position.z = 5;
 
+      //Adding lights
       const alight = new THREE.AmbientLight(0xffffff);
       scene.add(alight);
 
-      //Adding lights
       const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
-      directionalLight.position = (0, 5, 0);
+      directionalLight.position.set(0, 5, 0);
       scene.add(directionalLight);
 
       const redDirectionalLight = new THREE.DirectionalLight(0xff0000, 1.0);
@@ -129,6 +152,7 @@
 
       const blueDirectionalLight = new THREE.DirectionalLight(0x0000ff, 1.0);
       blueDirectionalLight.position = (5, 0, 0);
+      blueDirectionalLight.angle = Math.PI / 2;
       scene.add(blueDirectionalLight);
 
       const greenSpotLight = new THREE.SpotLight(0x00ff00, 1.0);
@@ -137,8 +161,8 @@
       // //create target object
       const targetObject = new THREE.Object3D();
       targetObject.position = (-2.5, 0, 0);
-      greenSpotLight.target = targetObject;
       scene.add(targetObject);
+      greenSpotLight.target = targetObject;
 
       scene.add(greenSpotLight);
 
