@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Shading</title>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <script>
+      window.addEventListener("resize", () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      // Our Javascript will go here.
+      const scene = new THREE.Scene();
+
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const geometry = new THREE.SphereGeometry(1, 10, 10);
+
+      //default materials
+      const materialSphere = new THREE.MeshLambertMaterial({
+        color: "#006063",
+      });
+      const materialSphere2 = new THREE.MeshPhongMaterial({
+        color: "#006063",
+        specular: "#a9fcff",
+        shininess: 100,
+      });
+      materialSphere2.flatShading = true;
+
+      //Other types of material
+      const materials_types = {
+        emerald: {
+          color: new THREE.Color(0.07568, 0.61424, 0.07568),
+          specular: new THREE.Color(0.633, 0.7278, 0.633),
+          shininess: 0.6 * 256,
+        },
+        gold: {
+          color: new THREE.Color(0.75164, 0.60648, 0.22648),
+          specular: new THREE.Color(0.628281, 0.555802, 0.366065),
+          shininess: 0.4 * 256,
+        },
+        silver: {
+          color: new THREE.Color(0.50754, 0.50754, 0.50754),
+          specular: new THREE.Color(0.508273, 0.508273, 0.508273),
+          shininess: 0.4 * 256,
+        },
+        black_plastic: {
+          color: new THREE.Color(0.01, 0.01, 0.01),
+          specular: new THREE.Color(0.5, 0.5, 0.5),
+          shininess: 0.25 * 256,
+        },
+        red_plastic: {
+          color: new THREE.Color(0.5, 0.0, 0.0),
+          specular: new THREE.Color(0.7, 0.6, 0.6),
+          shininess: 0.25 * 256,
+        },
+        white_plastic: {
+          color: new THREE.Color(0.55, 0.55, 0.55),
+          specular: new THREE.Color(0.7, 0.7, 0.7),
+          shininess: 0.25 * 256,
+        },
+        black_rubber: {
+          color: new THREE.Color(0.01, 0.01, 0.01),
+          specular: new THREE.Color(0.4, 0.4, 0.4),
+          shininess: 0.0781 * 256,
+        },
+        red_rubber: {
+          color: new THREE.Color(0.5, 0.4, 0.4),
+          specular: new THREE.Color(0.7, 0.04, 0.04),
+          shininess: 0.0781 * 256,
+        },
+        white_rubber: {
+          color: new THREE.Color(0.5, 0.5, 0.5),
+          specular: new THREE.Color(0.7, 0.7, 0.7),
+          shininess: 0.0781 * 256,
+        },
+      };
+
+      //To Apply different types of material choose from the object above
+      const optional_material = new THREE.MeshPhongMaterial({
+        shading: THREE.SmoothShading,
+      });
+      optional_material.color = materials_types.white_rubber.color;
+      optional_material.specular = materials_types.white_rubber.specular;
+      optional_material.shininess = materials_types.white_rubber.shininess;
+
+      //The second parametar can be:
+      //materialSphere to apply meshLambert
+      //materialSphere2 to apply meshPong with flatShading
+      //optional_material to apply meshPong with colors optional from the object above (emerald, gold, silver, black_plastic, etc)
+      const sphere = new THREE.Mesh(geometry, materialSphere2);
+      const sphere2 = new THREE.Mesh(geometry, optional_material);
+      sphere.position.x = -2.5;
+      sphere2.position.x = 2.5;
+
+      scene.add(sphere);
+      scene.add(sphere2);
+
+      camera.position.z = 5;
+
+      const alight = new THREE.AmbientLight(0xffffff);
+      scene.add(alight);
+
+      //Adding lights
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+      directionalLight.position = (0, 5, 0);
+      scene.add(directionalLight);
+
+      const redDirectionalLight = new THREE.DirectionalLight(0xff0000, 1.0);
+      redDirectionalLight.position = (5, 0, 0);
+      scene.add(redDirectionalLight);
+
+      const blueDirectionalLight = new THREE.DirectionalLight(0x0000ff, 1.0);
+      blueDirectionalLight.position = (5, 0, 0);
+      scene.add(blueDirectionalLight);
+
+      const greenSpotLight = new THREE.SpotLight(0x00ff00, 1.0);
+      greenSpotLight.position = (0, 0, 5);
+      greenSpotLight.angle = Math.PI / 2;
+      // //create target object
+      const targetObject = new THREE.Object3D();
+      targetObject.position = (-2.5, 0, 0);
+      greenSpotLight.target = targetObject;
+      scene.add(targetObject);
+
+      scene.add(greenSpotLight);
+
+      //controls
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.update();
+
+      //TO test black colors on spheres
+      // renderer.setClearColor(0xffffff, 0);
+
+      function render() {
+        requestAnimationFrame(render);
+        renderer.render(scene, camera);
+        sphere.rotation.x += 0.01;
+        sphere.rotation.y += 0.01;
+        sphere2.rotation.x += 0.01;
+        sphere2.rotation.y += 0.01;
+      }
+      render();
+    </script>
+  </body>
+</html>
