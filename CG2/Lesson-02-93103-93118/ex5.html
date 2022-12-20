@@ -34,8 +34,11 @@
       const geometry = new THREE.SphereGeometry(1, 10, 10);
 
       //default materials
-      const materialSphere = new THREE.MeshLambertMaterial({
+
+      const materialSphere = new THREE.MeshPhongMaterial({
         color: "#006063",
+        specular: "#a9fcff",
+        shininess: 100,
       });
       const materialSphere2 = new THREE.MeshPhongMaterial({
         color: "#006063",
@@ -43,6 +46,9 @@
         shininess: 100,
       });
       materialSphere2.flatShading = true;
+      const materialLambertSphere = new THREE.MeshLambertMaterial({
+        color: "#006063",
+      });
 
       //Other types of material
       const materials_types = {
@@ -92,18 +98,18 @@
           shininess: 0.0781 * 256,
         },
       };
-
       //To Apply different types of material choose from the object above
       const optional_material = new THREE.MeshPhongMaterial({
         shading: THREE.SmoothShading,
       });
-      optional_material.color = materials_types.white_rubber.color;
-      optional_material.specular = materials_types.white_rubber.specular;
-      optional_material.shininess = materials_types.white_rubber.shininess;
+      optional_material.color = materials_types.white_plastic.color;
+      optional_material.specular = materials_types.white_plastic.specular;
+      optional_material.shininess = materials_types.white_plastic.shininess;
 
       //The second parametar can be:
       //materialSphere to apply meshLambert
       //materialSphere2 to apply meshPong with flatShading
+      //materialLambertSphere to apply meshLambert
       //optional_material to apply meshPong with colors optional from the object above (emerald, gold, silver, black_plastic, etc)
       const sphere = new THREE.Mesh(geometry, materialSphere2);
       const sphere2 = new THREE.Mesh(geometry, optional_material);
